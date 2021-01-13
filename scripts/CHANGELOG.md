@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.1.3
+
+* Fix width of `>=`
+
 ### v0.1.2
 
 * Make `>=` and `<=` work

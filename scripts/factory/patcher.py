@@ -1,5 +1,6 @@
 """Font patcher to add ligatures"""
 import fontforge
+import psMat
 from .firacode import *
 
 class Patcher(object):
@@ -20,6 +21,9 @@ class Patcher(object):
         try:
             self.base_font = fontforge.open(base_font)
             self.liga_font = fontforge.open(liga_font)
+
+            # Scale ligature font to em size of base font
+            self.liga_font.em = self.base_font.em
         except Exception as e:
             print('Exception while opening font file: {}'.format(e))
             raise
@@ -47,10 +51,31 @@ class Patcher(object):
         Args:
             ligature_name: (string) Name of ligature in ligature font.
         """
+        # Create a new character for ligature
         self.base_font.createChar(-1, ligature_name)
         self.base_font.selection.none()
         self.base_font.selection.select(ligature_name)
         self.base_font.paste()
+
+        # Correct width
+        self.correct_ligature_width(self.base_font[ligature_name])
+
+    def correct_ligature_width(self, glyph):
+        """Correct the horizontal advance and scale of a ligature.
+
+        Args:
+            glyph: (FontForge's glyph) Glyph of font
+        """
+        # Get max width of glyph that ligature must resize to, use m character
+        max_width = self.base_font[ord('m')].width
+        if glyph.width == max_width:
+            return
+
+        print('Correcting width from {}'.format(glyph.width))
+        # Scale large ligature to standard size
+        scale = float(max_width) / glyph.width
+        glyph.transform(psMat.scale(scale, 1.0))
+        glyph.width = max_width
 
     def create_single_lookup(self, input_chars, ligature_name):
         """
