@@ -60,7 +60,7 @@ _main() {
       $(realpath $TEMP_DIR/FiraCode-$fira_style.otf) \
       -D $OUTPUT_DIR -n "${FONT_FAMILY_NAME}" \
       -s "${suffix}" -d
-    ((style_count++))
+      ((style_count+=1))
   done
   _success "Created font $FONT_FAMILY_NAME"
 }

@@ -2,7 +2,14 @@
 """
 Main Python script to make font
 """
+import sys
+sys.path.append(".")
+import logging
 from argparse import ArgumentParser
+from log import StreamToLogger
+from factory.generator import Generator
+
+DEBUG_FILE="debug.log"
 
 def parse_args():
     """Parse arguments from command line"""
@@ -38,9 +45,30 @@ def parse_args():
 def main(base_font_file, ligature_font_file,
          name, prefix, suffix,
          directory, debug, **kwargs):
-    print(base_font_file, ligature_font_file, name, prefix, suffix,
-          directory, debug, **kwargs)
-    pass
+    if debug:
+        level = logging.DEBUG
+    else:
+        level = logging.INFO
+    handler = logging.FileHandler(DEBUG_FILE, "w", "utf-8")
+    handler.setFormatter(logging.Formatter(
+        "%(asctime)s | %(levelname)s | %(message)s"))
+
+    stdout_logger = logging.getLogger("STDOUT")
+    stdout_logger.setLevel(level)
+    stdout_logger.addHandler(handler)
+    sl = StreamToLogger(stdout_logger, logging.INFO)
+    sys.stdout = sl
+
+    if debug:
+        stderr_logger = logging.getLogger("STDERR")
+        stderr_logger.setLevel(level)
+        stderr_logger.addHandler(handler)
+        sl = StreamToLogger(stderr_logger, logging.ERROR)
+        sys.stderr = sl
+
+    generator = Generator(base_font_file)
+    generator.update_font_metadata(prefix, name, suffix)
+    generator.generate(directory)
 
 if __name__ == "__main__":
     main(**vars(parse_args()))
