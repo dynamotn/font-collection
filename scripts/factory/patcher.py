@@ -124,7 +124,7 @@ class Patcher(object):
                 # Add rule for replacement if match last char of ligatures
                 self.base_font[char].addPosSub(subtable_name(i), ligature_name)
 
-    def create_matching_lookup(self, input_chars, ligature_name):
+    def create_matching_lookup(self, input_chars, ligature_name, **kwargs):
         """
         Create FontForge lookup, for matching rule from list of segment
         to generate ligature
@@ -151,13 +151,19 @@ class Patcher(object):
         print('Adding CALT contextual with name %s' % (lookup_name))
 
         for i, char in enumerate(input_chars):
-            # Add rule in subtable of lookup
-            self.add_contextual_alternative(lookup_name, subtable_name(i),
-                          '{prev} | {current} @<{lookup}> | {next}',
-                          prev = prev_segment(i),
-                          current = char,
-                          lookup = single_lookup_name(i),
-                          next = next_segment(i))
+            if ligature_name == 'x.multiply':
+                self.add_contextual_alternative(lookup_name, subtable_name(i),
+                              kwargs.get('rule', ''),
+                              kwargs.get('rule_kind', ''),
+                              lookup = single_lookup_name(i))
+            else:
+                # Add rule in subtable of lookup
+                self.add_contextual_alternative(lookup_name, subtable_name(i),
+                              '{prev} | {current} @<{lookup}> | {next}',
+                              prev = prev_segment(i),
+                              current = char,
+                              lookup = single_lookup_name(i),
+                              next = next_segment(i))
 
     def create_ignore_subtable(self, input_chars, ligature_name,
                              ignore_before=None, ignore_after=None):
@@ -222,7 +228,7 @@ class Patcher(object):
                                              kind, rule)
 
     def add_ligature(self, input_chars, ligature_name,
-                     ignore_before=None, ignore_after=None):
+                     ignore_before=None, ignore_after=None, **kwargs):
         """Add ligature character & rules of it to base font that follow a
         sequence input characters by lookup from ligature font by ligature name.
 
@@ -241,7 +247,7 @@ class Patcher(object):
 
         # Create FontForge lookup
         self.create_single_lookup(input_chars, ligature_name)
-        self.create_matching_lookup(input_chars, ligature_name)
+        self.create_matching_lookup(input_chars, ligature_name, **kwargs)
         self.create_ignore_subtable(input_chars, ligature_name,
                                   ignore_before, ignore_after)
 
@@ -252,7 +258,9 @@ class Patcher(object):
                 print('Adding {}'.format(spec['name']))
                 self.add_ligature(spec['chars'], spec['name'],
                                   spec.get('ignore_before', []),
-                                  spec.get('ignore_after', []))
+                                  spec.get('ignore_after', []),
+                                  rule=spec.get('rule', ''),
+                                  rule_kind=spec.get('rule_kind', ''))
             except Exception as e:
                 print('Exception while adding ligature: {}\n{}' \
                       .format(spec, e))

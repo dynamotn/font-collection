@@ -29,7 +29,10 @@ CHAR_DICT = {
     'parenleft': '(',
     'parenright': ')',
     'w': 'w',
+    'x': 'x',
 }
+DIGIT = 'zero one two three four five six seven eight nine'
+HEX_DIGIT = DIGIT + ' a b c d e f A B C D E F'
 LIGATURES = [
     {   # &&
         'chars': ['ampersand', 'ampersand'],
@@ -777,4 +780,10 @@ LIGATURES = [
         'chars': ['w', 'w', 'w'],
         'name': 'w_w_w.liga',
     },
+    {   # 0xFF, 1920x1080
+        'chars': ['x'],
+        'name': 'x.multiply',
+        'rule': '[zero] | [x] @<{lookup}> | [' + HEX_DIGIT + ']',
+        'rule_kind': 'coverage',
+    }
 ]

@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v1.2
+
+* Add `0xFF` `1920x1080` case
+
 ### v1.1
 
 * Add ignore rules to disable ligature for some cases in FiraCode 3.1
