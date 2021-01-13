@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v1.1
+
+* Add ignore rules to disable ligature for some cases in FiraCode 3.1
+
 ### v1.0
 
 * Add all ligatures from FiraCode 3.1

@@ -74,10 +74,22 @@ LIGATURES = [
     {   # **
         'chars': ['asterisk', 'asterisk'],
         'name': 'asterisk_asterisk.liga',
+        'ignore_before': [
+            'slash', # /**
+        ],
+        'ignore_after': [
+            'slash', # **/
+        ],
     },
     {   # ***
         'chars': ['asterisk', 'asterisk', 'asterisk'],
         'name': 'asterisk_asterisk_asterisk.liga',
+        'ignore_before': [
+            'slash', # /***
+        ],
+        'ignore_after': [
+            'slash', # ***/
+        ],
     },
     {   # **/  # absent from 2.0
         'chars': ['asterisk', 'asterisk', 'slash'],
@@ -122,6 +134,9 @@ LIGATURES = [
     {   # ||>
         'chars': ['bar', 'bar', 'greater'],
         'name': 'bar_bar_greater.liga',
+        'ignore_before': [
+            'less', # <||>
+        ],
     },
     {   # ||-  # new in 2.0
         'chars': ['bar', 'bar', 'hyphen'],
@@ -130,14 +145,23 @@ LIGATURES = [
     {   # |}
         'chars': ['bar', 'braceright'],
         'name': 'bar_braceright.liga',
+        'ignore_before': [
+            'braceleft', # {|}
+        ],
     },
     {   # |]
         'chars': ['bar', 'bracketright'],
         'name': 'bar_bracketright.liga',
+        'ignore_before': [
+            'bracketleft', # [|]
+        ],
     },
     {   # |=
         'chars': ['bar', 'equal'],
         'name': 'bar_equal.liga',
+        'ignore_after': [
+            'bar', # |=|
+        ],
     },
     {   # |=>  # new in 2.0
         'chars': ['bar', 'equal', 'greater'],
@@ -150,6 +174,9 @@ LIGATURES = [
     {   # |-
         'chars': ['bar', 'hyphen'],
         'name': 'bar_hyphen.liga',
+        'ignore_after': [
+            'bar', # |-|
+        ],
     },
     {   # |->  # new in 2.0
         'chars': ['bar', 'hyphen', 'greater'],
@@ -158,6 +185,9 @@ LIGATURES = [
     {   # {|
         'chars': ['braceleft', 'bar'],
         'name': 'braceleft_bar.liga',
+        'ignore_after': [
+            'braceright', # {|}
+        ],
     },
     {   # {-  # absent from 2.0
         'chars': ['braceleft', 'hyphen'],
@@ -166,6 +196,9 @@ LIGATURES = [
     {   # [|
         'chars': ['bracketleft', 'bar'],
         'name': 'bracketleft_bar.liga',
+        'ignore_after': [
+            'bracketright', # [|]
+        ],
     },
     {   # []  # absent from 2.0
         'chars': ['bracketleft', 'bracketright'],
@@ -194,6 +227,13 @@ LIGATURES = [
     {   # :>
         'chars': ['colon', 'greater'],
         'name': 'colon_greater.liga',
+        'ignore_after': [
+            'equal', # :>=
+            'colon', # :>:
+        ],
+        'ignore_before': [
+            'greater', # >:>
+        ],
     },
     {   # $>
         'chars': ['dollar', 'greater'],
@@ -210,14 +250,23 @@ LIGATURES = [
     {   # ==
         'chars': ['equal', 'equal'],
         'name': 'equal_equal.liga',
+        'ignore_before': [
+            'bracketleft', # [==
+        ],
     },
     {   # ===
         'chars': ['equal', 'equal', 'equal'],
         'name': 'equal_equal_equal.liga',
+        'ignore_before': [
+            'bracketleft', # [===
+        ],
     },
     {   # ==>
         'chars': ['equal', 'equal', 'greater'],
         'name': 'equal_equal_greater.liga',
+        'ignore_before': [
+            'bracketleft', # [==>
+        ],
     },
     {   # =!=
         'chars': ['equal', 'exclam', 'equal'],
@@ -226,6 +275,12 @@ LIGATURES = [
     {   # =>
         'chars': ['equal', 'greater'],
         'name': 'equal_greater.liga',
+        'ignore_before': [
+            'bracketleft', # [=>
+        ],
+        'ignore_after': [
+            'equal', # =>=
+        ],
     },
     {   # =>>
         'chars': ['equal', 'greater', 'greater'],
@@ -262,6 +317,13 @@ LIGATURES = [
     {   # >=
         'chars': ['greater', 'equal'],
         'name': 'greater_equal.liga',
+        'ignore_after': [
+            'less', # >=<
+        ],
+        'ignore_before': [
+            'equal', # =>=
+            'colon', # :>=
+        ],
     },
     {   # >=>
         'chars': ['greater', 'equal', 'greater'],
@@ -270,14 +332,30 @@ LIGATURES = [
     {   # >>
         'chars': ['greater', 'greater'],
         'name': 'greater_greater.liga',
+        'ignore_before': [
+            'asterisk', # *>>
+            'plus', # +>>
+            'dollar', # $>>
+        ],
     },
     {   # >>=
         'chars': ['greater', 'greater', 'equal'],
         'name': 'greater_greater_equal.liga',
+        'ignore_before': [
+            'equal', # =>>=
+        ],
+        'ignore_after': [
+            'greater', # >>=>
+        ],
     },
     {   # >>>
         'chars': ['greater', 'greater', 'greater'],
         'name': 'greater_greater_greater.liga',
+        'ignore_before': [
+            'asterisk', # *>>>
+            'plus', # +>>>
+            'dollar', # $>>>
+        ],
     },
     {   # >>-
         'chars': ['greater', 'greater', 'hyphen'],
@@ -298,6 +376,9 @@ LIGATURES = [
     {   # -|
         'chars': ['hyphen', 'bar'],
         'name': 'hyphen_bar.liga',
+        'ignore_before': [
+            'bar', # |-|
+        ],
     },
     {   # -}  # absent from 2.0
         'chars': ['hyphen', 'braceright'],
@@ -306,6 +387,9 @@ LIGATURES = [
     {   # ->
         'chars': ['hyphen', 'greater'],
         'name': 'hyphen_greater.liga',
+        'ignore_before': [
+            'bracketleft', # [->
+        ],
     },
     {   # ->>
         'chars': ['hyphen', 'greater', 'greater'],
@@ -314,14 +398,23 @@ LIGATURES = [
     {   # --
         'chars': ['hyphen', 'hyphen'],
         'name': 'hyphen_hyphen.liga',
+        'ignore_before': [
+            'bracketleft', # [--
+        ],
     },
     {   # -->
         'chars': ['hyphen', 'hyphen', 'greater'],
         'name': 'hyphen_hyphen_greater.liga',
+        'ignore_before': [
+            'bracketleft', # [-->
+        ],
     },
     {   # ---
         'chars': ['hyphen', 'hyphen', 'hyphen'],
         'name': 'hyphen_hyphen_hyphen.liga',
+        'ignore_before': [
+            'bracketleft', # [---
+        ],
     },
     {   # -<
         'chars': ['hyphen', 'less'],
@@ -358,6 +451,9 @@ LIGATURES = [
     {   # <||
         'chars': ['less', 'bar', 'bar'],
         'name': 'less_bar_bar.liga',
+        'ignore_after': [
+            'greater', # <||>
+        ],
     },
     {   # <|||
         'chars': ['less', 'bar', 'bar', 'bar'],
@@ -370,6 +466,12 @@ LIGATURES = [
     {   # <:
         'chars': ['less', 'colon'],
         'name': 'less_colon.liga',
+        'ignore_after': [
+            'less', # <:<
+        ],
+        'ignore_before': [
+            'color', # :<:
+        ]
     },
     {   # <$
         'chars': ['less', 'dollar'],
@@ -382,6 +484,9 @@ LIGATURES = [
     {   # <=
         'chars': ['less', 'equal'],
         'name': 'less_equal.liga',
+        'ignore_before': [
+            'equal', # =<=
+        ],
     },
     {   # <=|  # new in 2.0
         'chars': ['less', 'equal', 'bar'],
@@ -430,6 +535,11 @@ LIGATURES = [
     {   # <<
         'chars': ['less', 'less'],
         'name': 'less_less.liga',
+        'ignore_before': [
+            'asterisk', # *<<
+            'plus', # +<<
+            'dollar', # $<<
+        ],
     },
     {   # <<=
         'chars': ['less', 'less', 'equal'],
@@ -446,6 +556,11 @@ LIGATURES = [
     {   # <<<
         'chars': ['less', 'less', 'less'],
         'name': 'less_less_less.liga',
+        'ignore_before': [
+            'asterisk', # *<<<
+            'plus', # +<<<
+            'dollar', # $<<<
+        ],
     },
     {   # <+
         'chars': ['less', 'plus'],
@@ -466,6 +581,9 @@ LIGATURES = [
     {   # #{
         'chars': ['numbersign', 'braceleft'],
         'name': 'numbersign_braceleft.liga',
+        'ignore_after': [
+            'braceright', # #{}
+        ],
     },
     {   # #[
         'chars': ['numbersign', 'bracketleft'],
@@ -638,10 +756,22 @@ LIGATURES = [
     {   # >:
         'chars': ['greater', 'colon'],
         'name': 'greater_colon.liga',
+        'ignore_after': [
+            'greater', # >:>
+        ],
+        'ignore_before': [
+            'color', # :>:
+        ],
     },
     {   # :<
         'chars': ['colon', 'less'],
         'name': 'colon_less.liga',
+        'ignore_before': [
+            'less', # <:<
+        ],
+        'ignore_after': [
+            'color', # :<:
+        ]
     },
     {   # www
         'chars': ['w', 'w', 'w'],

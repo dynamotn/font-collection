@@ -159,6 +159,52 @@ class Patcher(object):
                           lookup = single_lookup_name(i),
                           next = next_segment(i))
 
+    def create_ignore_subtable(self, input_chars, ligature_name,
+                             ignore_before=None, ignore_after=None):
+        """Create ignore rule for ligature
+
+        Args:
+            input_chars: (list) A list of input characters.
+            ligature_name: (string) Name of ligature in ligature font.
+            ignore_before: (list) A list of additional rules that
+                want to ignore ligature if has character(s) before the start
+            ignore_after: (list) A list of additional rules that
+                want to ignore ligature if has character(s) after the end.
+        """
+        lookup_name = Patcher.CONTEXTUAL_MAIN_LOOKUP.format(ligature_name)
+        subtable_name = lambda i: Patcher.CONTEXTUAL_SUBTABLE_LOOKUP \
+            .format(ligature_name, i)
+        index = len(input_chars) - 1
+
+        # Add case a...bb
+        index += 1
+        self.add_contextual_alternative(lookup_name, subtable_name(index),
+                      '| {first} | {rest} {last}',
+                      first = input_chars[0],
+                      rest = ' '.join(input_chars[1:]),
+                      last = input_chars[-1])
+        # Add case aa...b
+        index += 1
+        self.add_contextual_alternative(lookup_name, subtable_name(index),
+                      '{first} | {first} | {rest}',
+                      first = input_chars[0],
+                      rest = ' '.join(input_chars[1:]))
+        # Add additional case
+        for list_chars in ignore_after:
+            index += 1
+            self.add_contextual_alternative(lookup_name, subtable_name(index),
+                          '| {first} | {rest} {after}',
+                          after = list_chars.replace('_', ' '),
+                          first = input_chars[0],
+                          rest = ' '.join(input_chars[1:]))
+        for list_chars in ignore_before:
+            index += 1
+            self.add_contextual_alternative(lookup_name, subtable_name(index),
+                          '{before} | {first} | {rest}',
+                          before = list_chars.replace('_', ' | '),
+                          first = input_chars[0],
+                          rest = ' '.join(input_chars[1:]))
+
     def add_contextual_alternative(self, lookup_name, subtable_name,
                                    rule, kind='glyph', **kwargs):
         """Wrapper to creates a subtable within the specified contextual
@@ -175,13 +221,18 @@ class Patcher(object):
         self.base_font.addContextualSubtable(lookup_name, subtable_name,
                                              kind, rule)
 
-    def add_ligature(self, input_chars, ligature_name):
+    def add_ligature(self, input_chars, ligature_name,
+                     ignore_before=None, ignore_after=None):
         """Add ligature character & rules of it to base font that follow a
         sequence input characters by lookup from ligature font by ligature name.
 
         Args:
             input_chars: (list) A list of input characters.
             ligature_name: (string) Name of ligature in ligature font.
+            ignore_before: (list) A list of additional rules that
+                want to ignore ligature if has character(s) before the start
+            ignore_after: (list) A list of additional rules that
+                want to ignore ligature if has character(s) after the end.
         """
         # Create a new character for ligature by copy and paste by FontForge
         if not self.copy_ligature_from_source(ligature_name):
@@ -191,13 +242,17 @@ class Patcher(object):
         # Create FontForge lookup
         self.create_single_lookup(input_chars, ligature_name)
         self.create_matching_lookup(input_chars, ligature_name)
+        self.create_ignore_subtable(input_chars, ligature_name,
+                                  ignore_before, ignore_after)
 
     def patch(self):
         """Patch font"""
         for spec in sorted(LIGATURES, key=lambda spec: len(spec['chars'])):
             try:
                 print('Adding {}'.format(spec['name']))
-                self.add_ligature(spec['chars'], spec['name'])
+                self.add_ligature(spec['chars'], spec['name'],
+                                  spec.get('ignore_before', []),
+                                  spec.get('ignore_after', []))
             except Exception as e:
                 print('Exception while adding ligature: {}\n{}' \
                       .format(spec, e))
