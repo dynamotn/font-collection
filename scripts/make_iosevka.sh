@@ -39,7 +39,7 @@ _download_iosevka() {
 
 _download_firacode() {
   _notice "Downloading FiraCode font version: $FIRACODE_VERSION"
-  fira_style_names=("Regular" "Bold")
+  local fira_style_names=("Regular" "Bold")
   for style in ${fira_style_names[@]}; do
     curl -SLC - https://raw.githubusercontent.com/tonsky/FiraCode/$FIRACODE_VERSION/distr/otf/FiraCode-$style.otf -o $TEMP_DIR/FiraCode-$style.otf
   done
@@ -49,7 +49,20 @@ _download_firacode() {
 _main() {
   _download_iosevka
   _download_firacode
-  _success "Test"
+  local styles=(regular italic oblique bold bolditalic boldoblique)
+  local style_names=("" "Italic" "Oblique" "Bold" "Bold Italic" "Bold Oblique")
+  local style_count=0
+  for style in ${styles[@]}; do
+    [[ "$style" =~ "bold*" ]] && fira_style="Bold" || fira_style="Regular"
+    local suffix="${style_names[$style_count]}"
+    _notice "Make font ${FONT_FAMILY_NAME} ${suffix}"
+    $DIR/main.py $TEMP_DIR/iosevka/iosevka-${IOSEVKA_VARIANT}-$style.ttf \
+      $(realpath $TEMP_DIR/FiraCode-$fira_style.otf) \
+      -D $OUTPUT_DIR -n "${FONT_FAMILY_NAME}" \
+      -s "${suffix}" -d
+    ((style_count++))
+  done
+  _success "Created font $FONT_FAMILY_NAME"
 }
 
 _prequisite
