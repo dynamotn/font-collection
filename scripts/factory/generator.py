@@ -1,5 +1,4 @@
 """Font generator"""
-import fontforge
 from os import path
 
 class Generator(object):
@@ -8,18 +7,14 @@ class Generator(object):
     COPYRIGHT = ' Programming ligatures added by ' + MANUFACTURE + \
         ' from FiraCode.' + \
         ' FiraCode Copyright Ⓒ 2015 by Nikita Prokopov'
-    VERSION = 'v0.1.0'
+    VERSION = 'v0.1.1'
 
     def __init__(self, base_font):
         """
         Args:
-            base_font: (string) Path of base font to create new font
+            base_font: (FontForge's font object) Base font to create new font
         """
-        try:
-            self.base_font = fontforge.open(base_font)
-        except Exception as e:
-            print('Exception while opening font file: {}'.format(e))
-            raise
+        self.base_font = base_font
 
     def replace_sfnt(self, key, value):
         """Replace value of a key in SFNT metadata of base font to new value"""

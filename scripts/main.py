@@ -3,11 +3,11 @@
 Main Python script to make font
 """
 import sys
-sys.path.append(".")
 import logging
 from argparse import ArgumentParser
 from log import StreamToLogger
 from factory.generator import Generator
+from factory.patcher import Patcher
 
 DEBUG_FILE="debug.log"
 
@@ -66,7 +66,9 @@ def main(base_font_file, ligature_font_file,
         sl = StreamToLogger(stderr_logger, logging.ERROR)
         sys.stderr = sl
 
-    generator = Generator(base_font_file)
+    patcher = Patcher(base_font_file, ligature_font_file)
+    patcher.patch()
+    generator = Generator(patcher.base_font)
     generator.update_font_metadata(prefix, name, suffix)
     generator.generate(directory)
 

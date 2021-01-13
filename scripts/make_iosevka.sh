@@ -2,8 +2,8 @@
 set -Eeuo pipefail
 
 DIR=$(dirname "$(readlink -f "$0")")
-TEMP_DIR=$(mktemp -d)
-trap "rm -rf $TEMP_DIR" EXIT
+TEMP_DIR=$DIR/tmp
+#trap "rm -rf $TEMP_DIR" EXIT
 source $DIR/message.sh
 
 FONT_FAMILY_NAME="Iosevka Dynamo"
