@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v1.0
+
+* Add all ligatures from FiraCode 3.1
+
 ### v0.1.3
 
 * Fix width of `>=`
