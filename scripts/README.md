@@ -2,7 +2,7 @@
 Adding programming ligatures to my favorite Iosevka.
 
 ## Why do I create it?
-Although Iosevka has ligatures, but it's not work with my kitty terminal.
+Although Iosevka has ligatures, but it's not work with my kitty terminal (https://github.com/kovidgoyal/kitty/issues/297).
 And FiraCode has some ligatures that I need.
 
 ## Which version of font that I use?
