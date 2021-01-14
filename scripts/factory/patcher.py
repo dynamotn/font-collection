@@ -27,40 +27,44 @@ class Patcher(object):
             print('Exception while opening font file: {}'.format(e))
             raise
 
-    def copy_ligature_from_source(self, ligature_name):
-        """Copy ligature character from ligature font to FontForge's clipboard
+    def copy_char_from_source(self, name):
+        """Copy character from ligature font to FontForge's clipboard
 
         Args:
-            ligature_name: (string) Name of ligature in ligature font.
+            name: (string) Name of character in ligature font.
 
         Returns:
             True/False: Success or not
         """
         try:
             self.liga_font.selection.none()
-            self.liga_font.selection.select(ligature_name)
+            self.liga_font.selection.select(name)
             self.liga_font.copy()
             return True
         except ValueError:
             return False
 
-    def paste_ligature_to_destination(self, ligature_name):
-        """Paste ligature character from FontForge's clipboard to base font
+    def paste_char_to_destination(self, name, is_ligature=True):
+        """Paste character from FontForge's clipboard to base font
 
         Args:
-            ligature_name: (string) Name of ligature in ligature font.
+            name: (string) Name of character in ligature font.
+            is_ligature: (bool) Flag to specify character that is ligature
         """
-        # Create a new character for ligature
-        self.base_font.createChar(-1, ligature_name)
+        if is_ligature:
+            # Create a new character for ligature
+            self.base_font.createChar(-1, name)
+
+        # Paste from FontForge's clipboard
         self.base_font.selection.none()
-        self.base_font.selection.select(ligature_name)
+        self.base_font.selection.select(name)
         self.base_font.paste()
 
         # Correct width
-        self.correct_ligature_width(self.base_font[ligature_name])
+        self.correct_char_width(self.base_font[name])
 
-    def correct_ligature_width(self, glyph):
-        """Correct the horizontal advance and scale of a ligature.
+    def correct_char_width(self, glyph):
+        """Correct the horizontal advance and scale of a ligature/character.
 
         Args:
             glyph: (FontForge's glyph) Glyph of font
@@ -224,9 +228,9 @@ class Patcher(object):
                 want to ignore ligature if has character(s) after the end.
         """
         # Create a new character for ligature by copy and paste by FontForge
-        if not self.copy_ligature_from_source(ligature_name):
+        if not self.copy_char_from_source(ligature_name):
             return
-        self.paste_ligature_to_destination(ligature_name)
+        self.paste_char_to_destination(ligature_name)
 
         # Create FontForge lookup
         self.create_single_lookup(input_chars, ligature_name)
@@ -236,6 +240,14 @@ class Patcher(object):
 
     def patch(self):
         """Patch font"""
+        # Copy individual characters that is appeared in ligatures
+        for char in COPY_CHARS:
+            print('Adding {}'.format(char))
+            if not self.copy_char_from_source(char):
+                continue
+            self.paste_char_to_destination(char, False)
+
+        # Add ligatures
         for spec in sorted(LIGATURES, key=lambda spec: len(spec['chars'])):
             try:
                 print('Adding {}'.format(spec['name']))

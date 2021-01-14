@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v1.3
+
+* Copy some special characters from FiraCode to Iosevka to have uniform
+
 ### v1.2.1
 
 * Reduce size of font by remove duplicated characters

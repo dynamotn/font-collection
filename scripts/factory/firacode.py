@@ -34,6 +34,11 @@ CHAR_DICT = {
 DIGIT = 'zero one two three four five six seven eight nine'
 SPACE = 'space'
 HEX_DIGIT = DIGIT + ' a b c d e f A B C D E F'
+COPY_CHARS = [
+    'ampersand', 'asciicircum', 'asciitilde', 'asterisk', 'backslash', 'bar',
+    'colon', 'equal', 'exclam', 'greater', 'hyphen', 'less', 'numbersign',
+    'percent', 'period', 'plus', 'question', 'semicolon', 'slash', 'underscore',
+]
 LIGATURES = [
     {   # &&
         'chars': ['ampersand', 'ampersand'],
