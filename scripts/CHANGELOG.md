@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v1.3.1
+
+* Revert changes of v1.2.1 to fix wrong appearance on GUI applications
+
 ### v1.3
 
 * Copy some special characters from FiraCode to Iosevka to have uniform
