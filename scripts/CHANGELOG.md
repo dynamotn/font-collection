@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v1.2.1
+
+* Reduce size of font by remove duplicated characters
+
 ### v1.2
 
 * Add `0xFF` `1920x1080` case

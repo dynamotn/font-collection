@@ -32,6 +32,7 @@ CHAR_DICT = {
     'x': 'x',
 }
 DIGIT = 'zero one two three four five six seven eight nine'
+SPACE = 'space'
 HEX_DIGIT = DIGIT + ' a b c d e f A B C D E F'
 LIGATURES = [
     {   # &&

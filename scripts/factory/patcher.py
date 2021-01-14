@@ -7,7 +7,6 @@ class Patcher(object):
     """Subclass to patch font file to add ligatures"""
     SINGLE_MAIN_LOOKUP = 'single.{}.{}'
     SINGLE_SUBTABLE_LOOKUP = 'single.{}.{}.1'
-    EMPTY_GLYPH_NAME = 'empty.{}.{}'
     CONTEXTUAL_MAIN_LOOKUP = 'calt.{}'
     CONTEXTUAL_SUBTABLE_LOOKUP = 'calt.{}.{}'
 
@@ -89,8 +88,6 @@ class Patcher(object):
             .format(ligature_name, i)
         subtable_name = lambda i: Patcher.SINGLE_SUBTABLE_LOOKUP \
             .format(ligature_name, i)
-        spacer_name = lambda i: Patcher.EMPTY_GLYPH_NAME \
-            .format(ligature_name, i)
 
         for i, char in enumerate(input_chars):
             self.base_font.addLookup(lookup_name(i), 'gsub_single', (), ())
@@ -101,23 +98,12 @@ class Patcher(object):
                 self.base_font[ord(CHAR_DICT[char])].glyphname = char
 
             if i < len(input_chars) - 1:
-                print('Adding empty glyph and replace rule for {}.{} char {}'\
+                print('Adding replace rule to empty glyph for {}.{} char {}'\
                       .format(ligature_name, i, char))
-                # Create an empty glyph for each segment of ligature,
-                # exclude last char
-                self.base_font.selection.none()
-                self.base_font.selection.select('space')
-                self.base_font.copy()
-
-                self.base_font.createChar(-1, spacer_name(i))
-                self.base_font.selection.none()
-                self.base_font.selection.select(spacer_name(i))
-                self.base_font.paste()
 
                 # Add rule for replacement if match
                 # from first to nearest last char of ligatures
-                self.base_font[char].addPosSub(subtable_name(i),
-                                               spacer_name(i))
+                self.base_font[char].addPosSub(subtable_name(i), SPACE)
             else:
                 print('Adding replace rule for {}.{} char {}'\
                       .format(ligature_name, i, char))
@@ -138,10 +124,7 @@ class Patcher(object):
             .format(ligature_name, i)
         subtable_name = lambda i: Patcher.CONTEXTUAL_SUBTABLE_LOOKUP \
             .format(ligature_name, i)
-        spacer_name = lambda i: Patcher.EMPTY_GLYPH_NAME \
-            .format(ligature_name, i)
-        prev_segment = lambda i: ' '.join(
-            spacer_name(j) for j in range(i))
+        prev_segment = lambda i: ' '.join(SPACE for j in range(i))
         next_segment = lambda i: ' '.join(input_chars[i+1:])
 
         self.base_font.addLookup(lookup_name, 'gsub_contextchain', (),
