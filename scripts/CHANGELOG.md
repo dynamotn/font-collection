@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v1.4.1
+
+* Use original asterisk `*` from Iosevka instead of FiraCode
+
 ### v1.4
 
 * Add context-aware punctuation for `m-x`, `m+x`, `*ptr`, `A:e` from FiraCode

@@ -41,7 +41,7 @@ LOWERCASE = ' '.join(list(string.ascii_lowercase))
 UPPERCASE = ' '.join(list(string.ascii_uppercase))
 TALL = UPPERCASE + ' ' + DIGIT + ' ' + BRACKET + ' bar'
 COPY_CHARS = [
-    'ampersand', 'asciicircum', 'asciitilde', 'asterisk', 'backslash', 'bar',
+    'ampersand', 'asciicircum', 'asciitilde', 'backslash', 'bar',
     'colon', 'equal', 'exclam', 'greater', 'hyphen', 'less', 'numbersign',
     'percent', 'period', 'plus', 'question', 'semicolon', 'slash', 'underscore',
 ]
