@@ -1,4 +1,6 @@
 """Specification of font ligatures from FiraCode"""
+import string
+
 CHAR_DICT = {
     'ampersand': '&',
     'asciicircum': '^',
@@ -34,6 +36,10 @@ CHAR_DICT = {
 DIGIT = 'zero one two three four five six seven eight nine'
 SPACE = 'space'
 HEX_DIGIT = DIGIT + ' a b c d e f A B C D E F'
+BRACKET = 'bracketleft bracketright braceleft braceright parenleft parenright'
+LOWERCASE = ' '.join(list(string.ascii_lowercase))
+UPPERCASE = ' '.join(list(string.ascii_uppercase))
+TALL = UPPERCASE + ' ' + DIGIT + ' ' + BRACKET + ' bar'
 COPY_CHARS = [
     'ampersand', 'asciicircum', 'asciitilde', 'asterisk', 'backslash', 'bar',
     'colon', 'equal', 'exclam', 'greater', 'hyphen', 'less', 'numbersign',
@@ -79,6 +85,13 @@ LIGATURES = [
     {   # ~-
         'chars': ['asciitilde', 'hyphen'],
         'name': 'asciitilde_hyphen.liga',
+    },
+    {   # *ptr
+        'chars': ['asterisk'],
+        'name': 'asterisk.lc',
+        'rule': ' | [asterisk] @<{lookup}> | ' +
+            '[' + LOWERCASE + ']',
+        'rule_kind': 'coverage',
     },
     {   # **
         'chars': ['asterisk', 'asterisk'],
@@ -216,6 +229,13 @@ LIGATURES = [
     {   # ]#
         'chars': ['bracketright', 'numbersign'],
         'name': 'bracketright_numbersign.liga',
+    },
+    {   # X:
+        'chars': ['colon'],
+        'name': 'colon.uc',
+        'rule': '[' + TALL + ']' +
+            ' | [colon] @<{lookup}> | ',
+        'rule_kind': 'coverage',
     },
     {   # ::
         'chars': ['colon', 'colon'],
@@ -397,10 +417,21 @@ LIGATURES = [
     {   # >-
         'chars': ['greater', 'hyphen'],
         'name': 'greater_hyphen.liga',
+        'ignore_after': [
+            'less', # >-<
+        ],
     },
     {   # >->
         'chars': ['greater', 'hyphen', 'greater'],
         'name': 'greater_hyphen_greater.liga',
+    },
+    {   # m-x, different with M-x
+        'chars': ['hyphen'],
+        'name': 'hyphen.lc',
+        'rule': '[' + LOWERCASE + ']' +
+            ' | [hyphen] @<{lookup}> | ' +
+            '[' + LOWERCASE + ']',
+        'rule_kind': 'coverage',
     },
     {   # -~
         'chars': ['hyphen', 'asciitilde'],
@@ -452,6 +483,9 @@ LIGATURES = [
     {   # -<
         'chars': ['hyphen', 'less'],
         'name': 'hyphen_less.liga',
+        'ignore_before': [
+            'greater', # >-<
+        ],
     },
     {   # -<<
         'chars': ['hyphen', 'less', 'less'],
@@ -701,6 +735,14 @@ LIGATURES = [
     {   # .?
         'chars': ['period', 'question'],
         'name': 'period_question.liga',
+    },
+    {   # m+x, different with M+x
+        'chars': ['plus'],
+        'name': 'plus.lc',
+        'rule': '[' + LOWERCASE + ']' +
+            ' | [plus] @<{lookup}> | ' +
+            '[' + LOWERCASE + ']',
+        'rule_kind': 'coverage',
     },
     {   # +>
         'chars': ['plus', 'greater'],

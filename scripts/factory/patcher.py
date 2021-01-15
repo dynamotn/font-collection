@@ -1,7 +1,7 @@
 """Font patcher to add ligatures"""
 import fontforge
 import psMat
-from .firacode import *
+from .firacode import LIGATURES, CHAR_DICT, COPY_CHARS, SPACE
 
 class Patcher(object):
     """Subclass to patch font file to add ligatures"""
@@ -155,11 +155,14 @@ class Patcher(object):
         print('Adding CALT contextual with name %s' % (lookup_name))
 
         for i, char in enumerate(input_chars):
-            if ligature_name == 'x.multiply':
+            if kwargs.get('rule', ''):
                 self.add_contextual_alternative(lookup_name, subtable_name(i),
                               kwargs.get('rule', ''),
-                              kwargs.get('rule_kind', ''),
-                              lookup = single_lookup_name(i))
+                              kwargs.get('rule_kind', 'glyph'),
+                              prev = prev_segment(i),
+                              current = char,
+                              lookup = single_lookup_name(i),
+                              next = next_segment(i))
             else:
                 # Add rule in subtable of lookup
                 self.add_contextual_alternative(lookup_name, subtable_name(i),
@@ -227,7 +230,7 @@ class Patcher(object):
             kind: (string) Type of addContextualSubtable of FontForge
         """
         rule = rule.format(**kwargs)
-        print ('Subtable %s: %s' % (subtable_name, rule))
+        print ('Subtable %s (%s): %s' % (subtable_name, kind, rule))
         self.base_font.addContextualSubtable(lookup_name, subtable_name,
                                              kind, rule)
 
@@ -272,7 +275,7 @@ class Patcher(object):
                                   spec.get('ignore_before', []),
                                   spec.get('ignore_after', []),
                                   rule=spec.get('rule', ''),
-                                  rule_kind=spec.get('rule_kind', ''))
+                                  rule_kind=spec.get('rule_kind', 'glyph'))
             except Exception as e:
                 print('Exception while adding ligature: {}\n{}' \
                       .format(spec, e))

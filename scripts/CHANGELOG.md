@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### v1.4
+
+* Add context-aware punctuation for `m-x`, `m+x`, `*ptr`, `A:e` from FiraCode
+* Fix `>-<`
+
 ### v1.3.1
 
 * Revert changes of v1.2.1 to fix wrong appearance on GUI applications
