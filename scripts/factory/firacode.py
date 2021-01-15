@@ -244,6 +244,16 @@ LIGATURES = [
             'greater', # >:>
         ],
     },
+    {   # :<
+        'chars': ['colon', 'less'],
+        'name': 'colon_less.liga',
+        'ignore_before': [
+            'less', # <:<
+        ],
+        'ignore_after': [
+            'color', # :<:
+        ]
+    },
     {   # $>
         'chars': ['dollar', 'greater'],
         'name': 'dollar_greater.liga',
@@ -323,6 +333,10 @@ LIGATURES = [
         'chars': ['exclam', 'exclam', 'exclam'],
         'name': 'exclam_exclam_exclam.liga',
     },
+    {   # !!.
+        'chars': ['exclam', 'exclam','period'],
+        'name': 'exclam_exclam_period.liga',
+    },
     {   # >=
         'chars': ['greater', 'equal'],
         'name': 'greater_equal.liga',
@@ -332,6 +346,16 @@ LIGATURES = [
         'ignore_before': [
             'equal', # =>=
             'colon', # :>=
+        ],
+    },
+    {   # >:
+        'chars': ['greater', 'colon'],
+        'name': 'greater_colon.liga',
+        'ignore_after': [
+            'greater', # >:>
+        ],
+        'ignore_before': [
+            'color', # :>:
         ],
     },
     {   # >=>
@@ -505,6 +529,10 @@ LIGATURES = [
         'chars': ['less', 'equal', 'equal'],
         'name': 'less_equal_equal.liga',
     },
+    {   # <==>
+        'chars': ['less', 'equal','equal','greater'],
+        'name': 'less_equal_equal_greater.liga',
+    },
     {   # <=>
         'chars': ['less', 'equal', 'greater'],
         'name': 'less_equal_greater.liga',
@@ -597,6 +625,10 @@ LIGATURES = [
     {   # #[
         'chars': ['numbersign', 'bracketleft'],
         'name': 'numbersign_bracketleft.liga',
+    },
+    {   # #:
+        'chars': ['numbersign', 'colon'],
+        'name': 'numbersign_colon.liga',
     },
     {   # #=
         'chars': ['numbersign', 'equal'],
@@ -750,38 +782,6 @@ LIGATURES = [
         'chars': ['underscore', 'underscore'],
         'name': 'underscore_underscore.liga',
     },
-    {   # <==>
-        'chars': ['less', 'equal','equal','greater'],
-        'name': 'less_equal_equal_greater.liga',
-    },
-    {   # #:
-        'chars': ['numbersign', 'colon'],
-        'name': 'numbersign_colon.liga',
-    },
-    {   # !!.
-        'chars': ['exclam', 'exclam','period'],
-        'name': 'exclam_exclam_period.liga',
-    },
-    {   # >:
-        'chars': ['greater', 'colon'],
-        'name': 'greater_colon.liga',
-        'ignore_after': [
-            'greater', # >:>
-        ],
-        'ignore_before': [
-            'color', # :>:
-        ],
-    },
-    {   # :<
-        'chars': ['colon', 'less'],
-        'name': 'colon_less.liga',
-        'ignore_before': [
-            'less', # <:<
-        ],
-        'ignore_after': [
-            'color', # :<:
-        ]
-    },
     {   # www
         'chars': ['w', 'w', 'w'],
         'name': 'w_w_w.liga',
@@ -791,5 +791,5 @@ LIGATURES = [
         'name': 'x.multiply',
         'rule': '[zero] | [x] @<{lookup}> | [' + HEX_DIGIT + ']',
         'rule_kind': 'coverage',
-    }
+    },
 ]
