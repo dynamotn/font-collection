@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v1.4.2
+
+* Run script to patch from Iosevka v5.0.0-beta.2
+
 ### v1.4.1
 
 * Use original asterisk `*` from Iosevka instead of FiraCode
