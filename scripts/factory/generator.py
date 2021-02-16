@@ -7,7 +7,7 @@ class Generator(object):
     COPYRIGHT = ' Programming ligatures added by ' + MANUFACTURE + \
         ' from FiraCode.' + \
         ' FiraCode Copyright Ⓒ 2015 by Nikita Prokopov'
-    VERSION = 'v1.4.2'
+    VERSION = 'v1.4.3'
 
     def __init__(self, base_font):
         """
