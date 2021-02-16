@@ -3,6 +3,8 @@
 * Iosevka Dynamo (see [here](./scripts/README.md))
 * Roboto
 * Roboto Slab
+* Noto Sans (for Japanese and Chinese - Simplified, Traditional)
+* Noto Serif
 * Symbols Nerd Font (basic and minimal Nerd Font)
 
 # How to use
