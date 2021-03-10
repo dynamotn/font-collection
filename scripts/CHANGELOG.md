@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v1.4.4
+
+* Run script to patch from Iosevka v5.0.5
+
 ### v1.4.3
 
 * Run script to patch from Iosevka v5.0.1
