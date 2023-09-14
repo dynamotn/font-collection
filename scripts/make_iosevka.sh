@@ -8,7 +8,7 @@ source "$DIR"/message.sh
 
 FONT_FAMILY_NAME="Iosevka Dynamo"
 FIRACODE_VERSION="3.1"
-IOSEVKA_VERSION="v24.1.3"
+IOSEVKA_VERSION="v26.3.3"
 IOSEVKA_VARIANT="fixed-ss05" # Use fixed version of Fira Mono style variant
 
 _check_prequisite_command() {
@@ -22,6 +22,7 @@ _prequisite() {
   _check_prequisite_command "unzip"
   _check_prequisite_command "python3"
   _check_prequisite_command "fontforge" "python-fontforge"
+  _check_prequisite_command "docker"
 
   OUTPUT_DIR=$DIR/../files/DIY/Iosevka
   mkdir -p "$OUTPUT_DIR" "$TEMP_DIR"/iosevka
@@ -46,6 +47,14 @@ _download_firacode() {
   _success "Downloaded FiraCode"
 }
 
+_patch_nerd() {
+  _notice "Patching Nerd Font"
+  docker run -it --rm -v $OUTPUT_DIR/iosevka-dynamo.ttf:/in/iosevka-dynamo.ttf -v $OUTPUT_DIR/nerd:/out nerdfonts/patcher --mono --fontawesome --codicons --material --octicons --careful
+  sudo mv $OUTPUT_DIR/nerd/IosevkaDynamoNerdFontMonoPlusFontAwesomePlusOcticonsPlusCodiconsPlusMaterialDesignIcons-Regular.ttf \
+    $OUTPUT_DIR/iosevka-dynamo-nerd.ttf
+  sudo chown $USER $OUTPUT_DIR/iosevka-dynamo-nerd.ttf
+}
+
 _main() {
   _download_iosevka
   _download_firacode
@@ -63,6 +72,9 @@ _main() {
     ((style_count += 1))
   done
   _success "Created font $FONT_FAMILY_NAME"
+
+  _patch_nerd
+  _success "Patched Nerd Font"
 }
 
 _prequisite
