@@ -8,7 +8,7 @@ source "$DIR"/message.sh
 
 FONT_FAMILY_NAME="Iosevka Dynamo"
 FIRACODE_VERSION="3.1"
-IOSEVKA_VERSION="v26.3.3"
+IOSEVKA_VERSION="v27.3.5"
 IOSEVKA_VARIANT="fixed-ss05" # Use fixed version of Fira Mono style variant
 
 _check_prequisite_command() {
@@ -49,6 +49,7 @@ _download_firacode() {
 
 _patch_nerd() {
   _notice "Patching Nerd Font"
+  mkdir -p $OUTPUT_DIR/nerd
   docker run -it --rm -v $OUTPUT_DIR/iosevka-dynamo.ttf:/in/iosevka-dynamo.ttf -v $OUTPUT_DIR/nerd:/out nerdfonts/patcher --mono --fontawesome --codicons --material --octicons --careful
   sudo mv $OUTPUT_DIR/nerd/IosevkaDynamoNerdFontMonoPlusFontAwesomePlusOcticonsPlusCodiconsPlusMaterialDesignIcons-Regular.ttf \
     $OUTPUT_DIR/iosevka-dynamo-nerd.ttf
