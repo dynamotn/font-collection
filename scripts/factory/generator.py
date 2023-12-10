@@ -3,11 +3,11 @@ from os import path
 
 class Generator(object):
     """Subclass to modify font metadata and generate font file"""
-    MANUFACTURE = 'Tran Duc Nam (aka. Dynamo, dynamo.foss@gmail.com)'
+    MANUFACTURE = 'Tran Duc Nam (aka. Dynamo, me@dynamotn.dev)'
     COPYRIGHT = ' Programming ligatures added by ' + MANUFACTURE + \
         ' from FiraCode.' + \
         ' FiraCode Copyright Ⓒ 2015 by Nikita Prokopov'
-    VERSION = 'v1.15.0'
+    VERSION = 'v1.15.1'
 
     def __init__(self, base_font):
         """
