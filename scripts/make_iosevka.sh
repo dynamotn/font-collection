@@ -8,8 +8,8 @@ source "$DIR"/message.sh
 
 FONT_FAMILY_NAME="Iosevka Dynamo"
 FIRACODE_VERSION="3.1"
-IOSEVKA_VERSION="v27.3.5"
-IOSEVKA_VARIANT="fixed-ss05" # Use fixed version of Fira Mono style variant
+IOSEVKA_VERSION="v28.1.0"
+IOSEVKA_VARIANT="FixedSS05" # Use fixed version of Fira Mono style variant
 
 _check_prequisite_command() {
   if ! command -v "$1" &> /dev/null; then
@@ -33,7 +33,7 @@ _download_iosevka() {
     IOSEVKA_VERSION=$(curl -sSL https://api.github.com/repos/be5invis/Iosevka/releases/latest | grep -Po "tag_name\": \"(\K.*)(?=\",)")
   fi
   _notice "Downloading Iosevka font version: $IOSEVKA_VERSION"
-  curl -SLC - https://github.com/be5invis/Iosevka/releases/download/"$IOSEVKA_VERSION/ttf-iosevka-$IOSEVKA_VARIANT-${IOSEVKA_VERSION:1}".zip -o "$TEMP_DIR/original-$IOSEVKA_VARIANT".zip
+  curl -SLC - https://github.com/be5invis/Iosevka/releases/download/"$IOSEVKA_VERSION/PkgTTF-Iosevka$IOSEVKA_VARIANT-${IOSEVKA_VERSION:1}".zip -o "$TEMP_DIR/original-$IOSEVKA_VARIANT".zip
   unzip -qqo "$TEMP_DIR/original-$IOSEVKA_VARIANT".zip -d "$TEMP_DIR"/iosevka
   _success "Downloaded Iosevka"
 }
@@ -59,14 +59,13 @@ _patch_nerd() {
 _main() {
   _download_iosevka
   _download_firacode
-  local styles=(regular italic oblique bold bolditalic boldoblique)
-  local style_names=("" "Italic" "Oblique" "Bold" "Bold Italic" "Bold Oblique")
+  local style_names=("Regular" "Italic" "Oblique" "Bold" "BoldItalic" "BoldOblique")
   local style_count=0
-  for style in "${styles[@]}"; do
-    [[ "$style" =~ "bold*" ]] && fira_style="Bold" || fira_style="Regular"
+  for style_name in "${style_names[@]}"; do
+    [[ "$style_name" =~ "Bold*" ]] && fira_style="Bold" || fira_style="Regular"
     local suffix="${style_names[$style_count]}"
     _notice "Make font ${FONT_FAMILY_NAME} ${suffix}"
-    "$DIR"/main.py "$TEMP_DIR/iosevka/iosevka-$IOSEVKA_VARIANT-$style".ttf \
+    "$DIR"/main.py "$TEMP_DIR/iosevka/Iosevka$IOSEVKA_VARIANT-$style_name".ttf \
       "$(realpath "$TEMP_DIR/FiraCode-$fira_style".otf)" \
       -D "$OUTPUT_DIR" -n "$FONT_FAMILY_NAME" \
       -s "$suffix" -d

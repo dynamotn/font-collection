@@ -1,4 +1,7 @@
 ## CHANGELOG
+### v1.16.0
+
+* Run script to patch from Iosevka v28.1.0
 ### v1.15.1
 
 * Change email of author
