@@ -1,17 +1,22 @@
 ## CHANGELOG
+### v1.17.0
+* Run script to patch from Iosevka v32.0.1
+
 ### v1.16.0
-
 * Run script to patch from Iosevka v28.1.0
+
 ### v1.15.1
-
 * Change email of author
-### v1.15.0
 
+### v1.15.0
 * Run script to patch from Iosevka v27.3.5
+
 ### v1.14
 * Run script to patch from Iosevka v26.3.3
+
 ### v1.13
 * Run script to patch from Iosevka v24.1.3
+
 ### v1.12
 * Run script to patch from Iosevka v22.1.2
 
