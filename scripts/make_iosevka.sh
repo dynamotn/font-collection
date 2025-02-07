@@ -8,7 +8,7 @@ source "$DIR"/message.sh
 
 FONT_FAMILY_NAME="Iosevka Dynamo"
 FIRACODE_VERSION="3.1"
-IOSEVKA_VERSION="v32.0.1"
+IOSEVKA_VERSION="v32.5.0"
 IOSEVKA_VARIANT="FixedSS05" # Use fixed version of Fira Mono style variant
 
 _check_prequisite_command() {
